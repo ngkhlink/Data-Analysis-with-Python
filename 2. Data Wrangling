@@ -1,0 +1,73 @@
+import pandas as pd
+import matplotlib.pylab as plt
+
+#Load the dataset to a pandas dataframe named 'df'
+file_name = ""
+#Example: file_path="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DA0101EN-SkillsNetwork/labs/Data%20files/auto.csv"
+
+#Add headers to the dataframe
+headers = [""]
+#Example: headers = ["symboling","normalized-losses","make","fuel-type","aspiration", "num-of-doors","body-style",
+         "drive-wheels","engine-location","wheel-base", "length","width","height","curb-weight","engine-type",
+         "num-of-cylinders", "engine-size","fuel-system","bore","stroke","compression-ratio","horsepower",
+         "peak-rpm","city-mpg","highway-mpg","price"]
+
+#Read CSV data set: Read the CSV file containing a data set to a pandas data frame
+#If the CSV file does not have a header row (i.e., the first row of the file contains data and not column names), use the names parameter to manually specify the column names.
+df = pd.read_csv(file_path, names = headers)
+print(df.head())
+
+import numpy as np
+
+#Replace "?" to NaN
+df.replace("?", np.nan, inplace = True)
+#Example: df.replace("?", np.nan, inplace = True)
+#print(df.head(5))
+
+#REPLACE MISSING DATA WITH FREQUENCY: Replace the missing values of the data set attribute with the mode common occurring entry in the column.
+MostFrequentEntry = df['attribute_name'].value_counts().idxmax() 
+df['attribute_name'].replace(np.nan,MostFrequentEntry,>df['attribute_name'].replace(np.nan,MostFrequentEntry, inplace=True)
+
+#REPLACE MISSING DATA WITH MEAN: Replace the missing values of the data set attribute with the mean of all the entries in the column.
+AverageValue=df['attribute_name'].astype(<data_type>).mean(axis=0)
+df['attribute_name'].replace(np.nan, AverageValue, inplace=True)
+#Example: avg_peakrpm=df['peak-rpm'].astype('float').mean(axis=0)
+#df["peak-rpm"].replace(np.nan, avg_peakrpm, inplace=True)
+#print(df["peak-rpm"])
+
+#FIX (CONVERT TO PROPER FORMAT) THE DATA TYPES: Fix the data types of the columns in the dataframe.
+df[['attribute1_name', 'attribute2_name', ...]] = 
+df[['attribute1_name', 'attribute2_name', ...]].astype('data_type')
+#data_type is int, float, char, etc. 
+#Example: df[["bore", "stroke"]] = df[["bore", "stroke"]].astype("float")
+#df[["normalized-losses"]] = df[["normalized-losses"]].astype("int")
+#print(df.dtypes)
+
+#DATA NORMALIZATION: Normalize the data in a column such that the values are restricted between 0 and 1. 
+#Replace (original value) by (original value)/(maximum value).
+df['attribute_name'] = df['attribute_name']/df['attribute_name'].max()
+#Example: df['height'] = df['height']/df['height'].max()
+#print(df[["length","width","height"]].head())
+
+#BINNING: Create bins of data for better analysis and visualization.
+bins = np.linspace(min(df['attribute_name']), max(df['attribute_name'],n)
+#n is the number of bins needed 
+GroupNames = ['Group1','Group2','Group3,...]
+#Example: bins = np.linspace(min(df["horsepower"]), max(df["horsepower"]), 4)
+#group_names = ['Low', 'Medium', 'High']
+#Apply the function "cut" to determine what each value of df['attribute_name'] belongs to.
+df['binned_attribute_name'] = pd.cut(df['attribute_name'], bins, labels=GroupNames, include_lowest=True)
+#Example: df['horsepower-binned'] = pd.cut(df['horsepower'], bins, labels=group_names, include_lowest=True )
+print(df[['horsepower','horsepower-binned']].head(20))
+
+#CHANGE COLUMN NAME: Change the label name of a dataframe column.
+df.rename(columns={'old_name':\'new_name'}, inplace=True)
+#Example: dummy_variable_2.rename(columns={'std':'aspiration-std', 'turbo': 'aspiration-turbo'}, inplace=True)
+
+#INDICATOR VARIABLES: Create indicator variables for categorical data.
+dummy_variable = pd.get_dummies(df['attribute_name'])
+df = pd.concat([df, dummy_variable],axis = 1)
+#Example: merge data frame "df" and "dummy_variable_1"
+#dummy_variable_1 = pd.get_dummies(df["fuel-type"])
+#df = pd.concat([df, dummy_variable_1], axis=1)
+#print(df.head())
