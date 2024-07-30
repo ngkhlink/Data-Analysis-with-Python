@@ -1,0 +1,32 @@
+import pandas as pd
+import matplotlib.pylab as plt
+import numpy as np
+
+#Binning
+#An Example of Binning Data In Pandas
+#Convert data to correct format
+df["horsepower"]=df["horsepower"].astype(int, copy=True)
+
+#Find 3 bins of equal size bandwidth by using Numpy's linspace(start_value, end_value, numbers_generated function.
+#Since you want to include the minimum value of horsepower, set start_value = min(df["horsepower"]).
+#Since you want to include the maximum value of horsepower, set end_value = max(df["horsepower"]).
+#Since you are building 3 bins of equal length, you need 4 dividers, so numbers_generated = 4.
+
+bins = np.linspace(min(df["horsepower"]), max(df["horsepower"]), 4)
+group_names = ['Low', 'Medium', 'High']
+
+#Apply the function "cut" to determine what each value of df['horsepower'] belongs to.
+df['horsepower-binned'] = pd.cut(df['horsepower'], bins, labels=group_names, include_lowest=True )
+
+#PLOT THE BAR CHART
+%matplotlib inline
+import matplotlib as plt
+from matplotlib import pyplot
+pyplot.bar(group_names, df["horsepower-binned"].value_counts())
+
+#Set x/y labels and plot title
+plt.pyplot.xlabel("horsepower")
+plt.pyplot.ylabel("count")
+plt.pyplot.title("horsepower bins")
+
+
