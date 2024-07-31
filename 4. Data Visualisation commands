@@ -1,0 +1,95 @@
+#Importing libraries
+#a. matplotlib
+from matplotlib import pyplot as plt #Alternatively
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#b. seaborn
+import seaborn as sns
+
+#matplotlib functions
+#1. Standard Line Plot: x is treated as an independent variable and y as the dependent variable.
+plt.plot(x,y)
+
+#2. Scatter plot: present the relationship between two variables in a data set. x contains the independent variable, and y contains the dependent variable.
+#Scatter plots are used in either of the following situations:
+#    When we have paired numerical data
+#    When there are multiple values of the dependent variable for a unique value of an independent variable
+#    In determining the relationship between variables in some scenarios
+plt.scatter(x,y)
+
+#3. Histogram
+#To view the data in a "Binned" form, we may use the histogram plot with a number of bins required or even with the data points that mark the bin edges.
+# x-axis represents the data bins, and the y-axis represents the number of elements in each of the bins.
+plt.hist(x,bins)
+# draw historgram of attribute "    " with bins = n
+plt.pyplot.hist(df["    "], bins = n)     #n is the number of bins
+#set x/y labels and plot title
+plt.pyplot.xlabel("    ")
+plt.pyplot.ylabel("  ")
+plt.pyplot.title("    ")
+
+#4. Bar plot: y-axis represents the average value of data points belonging to a particular category, x-axis represents the number of elements in the different categories.
+plt.bar(x,height)
+#x is the categorical variable
+#height is the number of values belonging to the category. 
+#width of each bin can be adjusted by using an additional width argument in the function.
+
+#5. Pseudo Color Plot: define an additional "cmap" argument to specify the color scheme of the plot.
+plt.pcolor(C)
+
+#seaborn functions
+#1. Regression plot
+sns.regplot(x = 'header_1',y = 'header_2',data= df)
+
+#2. Box and whisker plot
+#boxplot:
+sns.boxplot(x= "    ", y= "    ", data = df)
+#scatterplot
+y = df["    "]
+x = df["    "]
+plt.scatter(x,y)
+
+plt.title("    ")
+plt.xlable("    ")
+plt.ylable("    ")
+
+#3. Residual Plot: y on x as a polynomial regression and then draw a scatterplot of the residuals.
+sns.residplot(data=df,x='header_1', y='header_2')      #Alternatively
+sns.residplot(x=df['header_1'], y=df['header_2'])
+
+#4. KDE plot
+sns.kdeplot(X)
+
+#5. Distribution Plot: This plot has the capacity to combine the histogram and the KDE plots.
+sns.distplot(X,hist=False)
+#keeping the argument 'hist' as 'True' would plot the histogram along with the distribution plot.
+#Able to optionally keep or discard the histogram from being displayed.
+
+#6. A heat map to visualize the relationship from a Pivot Table
+#use the grouped results
+plt.pcolor(        , cmap='RdBu')
+plt.colorbar()
+plt.show()
+
+#CHANGE THE LABELS TO GET MORE USEFUL INFORMATION
+fig, ax = plt.subplots()
+im = ax.pcolor(grouped_pivot, cmap='RdBu')
+
+#label names
+row_labels = grouped_pivot.columns.levels[1]
+col_labels = grouped_pivot.index
+
+#move ticks and labels to the center
+ax.set_xticks(np.arange(grouped_pivot.shape[1]) + 0.5, minor=False)
+ax.set_yticks(np.arange(grouped_pivot.shape[0]) + 0.5, minor=False)
+
+#insert labels
+ax.set_xticklabels(row_labels, minor=False)
+ax.set_yticklabels(col_labels, minor=False)
+
+#rotate label if too long
+plt.xticks(rotation=90)
+
+fig.colorbar(im)
+plt.show()
